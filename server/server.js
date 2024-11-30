@@ -4,11 +4,13 @@ const express = require('express')
 const connectToDatabase = require('./connect')
 // Router for user data
 const userRouter = require('./routes/user')
+// Cors
+const cors = require('cors')
 
 const app = express ()
 const port = 4000
 
-
+app.use(cors({ origin: "http://localhost:3000" }));
 app.use(express.static("public"))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())

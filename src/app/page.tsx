@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
-      {/* Header Section */}
       <div className="text-center max-w-2xl">
         <h1 className="font-bold text-6xl mb-4">Worth It?</h1>
         <p className="text-lg leading-relaxed">
@@ -15,13 +14,12 @@ export default function Home() {
           visual tools.
         </p>
       </div>
-
-      {/* Call-to-Action Section */}
       <div className="mt-8 flex flex-col items-center gap-4">
-        {/* Button */}
-        <Button className="bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-200">
-          <a href="/api/auth/login">Start Now</a>
-        </Button>
+        <Link href="/signup">
+          <Button className="bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-200">
+            Sign Up
+          </Button>
+        </Link>
       </div>
 
       {/* Footer with Branding */}
