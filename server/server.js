@@ -19,19 +19,20 @@ app.set('view engine', 'ejs')
 // This is connecting to the server
 app.use(async (req, res, next) => {
     try{
-        req.db = await connectToDatabase();
-        next();
+        req.db = await connectToDatabase()
+        db = req.db
+        next()
     }
     // Status 500 Fail
     catch (error){
         res.status(500).send('Failed to connect to database')
     }   
-})
+}) 
 
 // Routes
-app.use('/users', userRouter)
+app.use('/', userRouter)
 
 // Console log the local server
 app.listen(port, () => {
-    console.log(`Server is running on http://localhost${port}`)
+    console.log(`Server is running on http://localhost:${port}`)
 })

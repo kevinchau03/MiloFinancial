@@ -1,48 +1,57 @@
 const express = require('express')
 const router = express.Router()
 
-router.use(logger)
 
-router.get('/', (req, res) => {
-    console.log(req.query.name)
-    res.send('User List')
-})
 
-router.get('/new', (req, res) => {
-    console.log(req.user)
-    res.render("users/new")
-})
+// GET back a user based on username
+router.get('/:username', async (req, res) => {
 
-router.post('/', (req, res) =>{
-    const isValid = false
-    if(isValid) {
-        users.push({firstName: req.body.firstName})
-        res.redirect(`/users/${users.length - 1}`)
-    }
-    else{
-        console.log("Error")
-        res.render('users/new', {firstName: req.body.firstName})
+    const { username } = req.params;
+
+    try{
+        const user = await req.db.collection('Users').findOne({ username });
+        if(user){
+            res.status(200).json(user)
+        }
+        else{
+            res.status(404).send('User not found')
+        }
+    }catch (error){
+        res.status(500).send('Error retrieving user')
     }
 })
 
-router.route("/:id").get((req, res) =>{
-    console.log(req.user)
-    res.send(`Get User with ID ${req.params.id}`)
-}).put((req, res) =>{
-    res.send(`Update User with ID ${req.params.id}`)
-}).delete((req, res) =>{
-    res.send(`Delete User with ID ${req.params.id}`)
+// POST registration. Includes an email for the account
+router.post('/signup', async (req, res) => {
+    const { username, password, email} = req.body;
+    try{
+        const result = await req.db.collection('Users').insertOne({username, password, email})
+        res.status(201).json({insertedId: result.insertedId})
+    }
+    catch{
+        res.status(500).send('Error creating user.')
+    }
 })
 
-const users = [{name: "Kyle"}, {name: "Sally"}]
-router.param("id", (req, res, next, id) => {
-    req.user = users[id]
-    next()
+// POST. Uses Bycrypt for security purposes
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    try{
+        const user = await req.db.collection('Users').findOne({ username })
+        if (!user){
+            return res.status(404).send("Error user not found")
+        }
+        if(password != user.password){
+            res.status(401).send("Error password is invalid")
+        }
+        
+        res.status(200).send('Login Success')
+    }
+    catch{
+        res.status(500).send('Error creating user.')
+    }
 })
 
-function logger(req, res, next) {
-    console.log(req.originalUrl)
-    next()
-}
 
 module.exports = router

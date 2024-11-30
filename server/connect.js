@@ -22,6 +22,7 @@ async function connectToDatabase() {
     // Get the database and collection
     const accounts = client.db('Accounts');
 
+    return client.db('Accounts');
     // If there's an error connecting to MongoDB. Check for updated roles or passwords
   } catch (error) {
     console.log("Error connecting to MongoDB");
@@ -29,4 +30,4 @@ async function connectToDatabase() {
   }
 }
 
-module.exports = connectToDatabase;
+module.exports = connectToDatabase;8
