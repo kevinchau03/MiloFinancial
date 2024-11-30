@@ -65,7 +65,35 @@ export default {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
-  		}
+  		},
+		  keyframes: {
+			hover: {
+			  '0%': { transform: 'translateZ(10px)' },
+			  '100%': { transform: 'translateZ(20px)' },
+			},
+			turnaround: {
+			  '0%': {
+				transform: 'perspective(500px) rotateY(0deg) rotateX(0deg)',
+			  },
+			  '25%': {
+				transform: 'perspective(500px) rotateY(15deg) rotateX(10deg)',
+			  },
+			  '50%': {
+				transform: 'perspective(500px) rotateY(0deg) rotateX(20deg)', // Maximum tilt on X-axis
+			  },
+			  '75%': {
+				transform: 'perspective(500px) rotateY(-15deg) rotateX(10deg)', // Reverse tilt
+			  },
+			  '100%': {
+				transform: 'perspective(500px) rotateY(0deg) rotateX(0deg)', // Return to default
+			  },
+			},
+		  },
+				
+		  animation: {
+			hover: 'hover 2s alternate infinite',
+			turnaround: 'turnaround 20s infinite',
+		  },
   	}
   },
   plugins: [require("tailwindcss-animate")],
