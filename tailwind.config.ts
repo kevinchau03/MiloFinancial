@@ -73,23 +73,36 @@ export default {
 			},
 			turnaround: {
 			  '0%': {
-				transform: 'perspective(500px) rotateY(0deg) rotateX(0deg)',
+				transform: 'perspective(500px) rotateY(30deg) rotateZ(-5deg) rotateX(15deg)',
 			  },
-			  '25%': {
-				transform: 'perspective(500px) rotateY(15deg) rotateX(10deg)',
+			  '33%': {
+				transform: 'perspective(500px) rotateY(10deg) rotateZ(-5deg) rotateX(-15deg)',
 			  },
-			  '50%': {
-				transform: 'perspective(500px) rotateY(0deg) rotateX(20deg)', // Maximum tilt on X-axis
-			  },
-			  '75%': {
-				transform: 'perspective(500px) rotateY(-15deg) rotateX(10deg)', // Reverse tilt
+			  '67%': {
+				transform: 'perspective(500px) rotateY(0deg) rotateZ(0deg) rotateX(0deg)',
 			  },
 			  '100%': {
-				transform: 'perspective(500px) rotateY(0deg) rotateX(0deg)', // Return to default
+				transform: 'perspective(500px) rotateY(30deg) rotateZ(-5deg) rotateX(15deg)',
 			  },
 			},
 		  },
-				
+		  turnaroundOpposite: {
+			'0%': {
+			  transform: 'perspective(500px) rotateY(0deg)', // Start at front
+			},
+			'25%': {
+			  transform: 'perspective(500px) rotateY(-15deg)', // Tilt left (opposite direction)
+			},
+			'50%': {
+			  transform: 'perspective(500px) rotateY(0deg)', // Back to front
+			},
+			'75%': {
+			  transform: 'perspective(500px) rotateY(15deg)', // Tilt right (opposite direction)
+			},
+			'100%': {
+			  transform: 'perspective(500px) rotateY(0deg)', // Back to front
+			},
+		  },	
 		  animation: {
 			hover: 'hover 2s alternate infinite',
 			turnaround: 'turnaround 20s infinite',
