@@ -4,8 +4,9 @@ const express = require('express')
 const connectToDatabase = require('./connect')
 // Router for user data
 const userRouter = require('./routes/user')
+const voiceflowRouter = require('./routes/voiceflow');
 
-const app = express ()
+const app = express()
 const port = 4000
 
 
@@ -31,6 +32,7 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/', userRouter)
+app.use('/api/voiceflow', voiceflowRouter);
 
 // Console log the local server
 app.listen(port, () => {
