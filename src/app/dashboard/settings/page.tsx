@@ -1,14 +1,9 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useUser } from '@auth0/nextjs-auth0/client';
-
 
 export default function Settings() {
-  const { user, error, isLoading } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
 
   return (
     <div className="flex flex-col gap-4">
@@ -16,9 +11,9 @@ export default function Settings() {
       <p>Change your profile settings here.</p>
       <div>
         <label>Username</label>
-        <Input placeholder={user.name} />
+        <Input placeholder="yuh" />
         <label>Email</label>
-        <Input placeholder={user.email}/>
+        <Input placeholder="lol"/>
         <label>Password</label>
         <Input placeholder="Password" type="password" />
       </div>
