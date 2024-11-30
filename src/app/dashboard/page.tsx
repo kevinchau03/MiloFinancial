@@ -14,8 +14,8 @@ import AppChart from '@/components/app-chart'
 
 export default function Dashboard() {
   return (
-    <div className="w-screen flex flex-col gap-2">
-      <h1 className="text-center">Your Dashboard</h1>
+    <div className="flex flex-col gap-4">
+      <h1 className="text-2xl font-bold text-center">Your Dashboard</h1>
       <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
@@ -57,7 +57,7 @@ export default function Dashboard() {
       <div>
         <AppChart />
       </div>
-      <Button variant="secondary" size="lg">Talk To Assistant</Button>
+      <Button variant="default" size="lg">Talk To Assistant</Button>
     </div>
   );
 }

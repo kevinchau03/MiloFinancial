@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 
 const geistSans = localFont({
@@ -15,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Is It Worth?",
+  title: "Worth?",
   description: "A budgetting assistant in your wallet",
 };
 
@@ -26,9 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <UserProvider>
+        <body>
+          {children}
+        </body>
+      </UserProvider>
     </html>
   );
 }
