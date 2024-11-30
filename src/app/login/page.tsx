@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 import Textbox from '@/components/textbox';
+import TextboxOpposite from '@/components/textbox_opposite';
+import Button from '@/components/button';
 
 export default function page(){
 
@@ -11,15 +13,13 @@ export default function page(){
     return(
         <div>
             <div className='flex flex-col mx-4 text-center'>
-            <h1 className="text-6xl font-extrabold my-6">Worth?</h1>
-            <div className="flex flex-col mb-4">
-                <Textbox input_function={setEmail} placeholder_text={"Email"}/>
-                <Textbox input_function={setPassword} placeholder_text={"Password"}/>
+                <h1 className="text-6xl font-extrabold my-6">Worth!?</h1>
+                <div className="flex flex-col mb-4">
+                    <Textbox input_function={setEmail} placeholder_text={"Email"}/>
+                    <TextboxOpposite input_function={setPassword} placeholder_text={"Password"}/>
+                </div>
+                <Button button_text={"Login"}/>
             </div>
-            <button className="p-4 border-2 border-solid border-white rounded-md hover:bg-[#3b3b3b]">
-                Login
-            </button>
-        </div>
         </div>
     );
 }
