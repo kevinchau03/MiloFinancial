@@ -28,10 +28,9 @@ export default function EditBudget() {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+    <div className="w-screen h-screen flex flex-col">
       <h1>Edit Your Budget</h1>
 
-      {/* Income Section */}
       <div>
         <h2>Income</h2>
         <input
@@ -39,7 +38,6 @@ export default function EditBudget() {
           placeholder="Enter your monthly income"
           value={income}
           onChange={(e) => setIncome(e.target.value)}
-          style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
         />
       </div>
 
@@ -51,7 +49,6 @@ export default function EditBudget() {
           value={goals}
           onChange={(e) => setGoals(e.target.value)}
           rows={3}
-          style={{ width: "100%", padding: "8px", marginBottom: "10px" }}
         />
       </div>
 
@@ -69,7 +66,6 @@ export default function EditBudget() {
                 onChange={(e) =>
                   handleExpenseChange(index, e.target.value)
                 }
-                style={{ width: "100%", padding: "8px", marginTop: "5px" }}
               />
             </label>
           </div>
@@ -79,14 +75,6 @@ export default function EditBudget() {
       {/* Save Button */}
       <button
         onClick={handleSave}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-        }}
       >
         Save Changes
       </button>
