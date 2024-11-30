@@ -10,7 +10,7 @@ export default function Home() {
         <Link href="/dashboard">
           <button className="border-2 border-white p-2 rounded-md">Head over to your dashboard</button>
         </Link>
-        <Link href="/settings">
+        <Link href="/signup">
           <button className="border-2 border-white p-2 rounded-md">Sign Up</button>
         </Link>
       </div>

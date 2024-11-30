@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { LayoutGrid, Home, Search, Settings, CircleDollarSign, LogIn } from "lucide-react"
 
 import {
     Sidebar,
@@ -21,12 +21,22 @@ const items = [
     {
         title: "Dashboard",
         url: "/dashboard",
-        icon: Home,
+        icon: LayoutGrid,
     },
     {
         title: "Settings",
-        url: "/settings",
+        url: "/dashboard/settings",
         icon: Settings,
+    },
+    {
+        title: "Budget",
+        url: "/dashboard/budget",
+        icon: CircleDollarSign,
+    },
+    {
+        title: "Log In/Sign Up",
+        url: "/signup",
+        icon: LogIn,
     },
 ]
 
