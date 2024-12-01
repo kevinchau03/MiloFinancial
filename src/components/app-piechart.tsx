@@ -19,7 +19,11 @@ import {
 } from "@/components/ui/chart";
 
 export default function CategoryChart() {
-  const [user, setUser] = useState(null);
+  interface User {
+    transaction_history: { purchase: string; price: number }[];
+  }
+
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     // Retrieve user data from local storage
