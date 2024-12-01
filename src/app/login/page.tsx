@@ -22,7 +22,7 @@ export default function LoginPage() {
     
             if (loginRes.ok) {
                 // Fetch user data after successful login
-                const userRes = await fetch(`http://localhost:4000/api/users/${username}`);
+                const userRes = await fetch(`/api/users/${username}`);
                 if (userRes.ok) {
                     const userData = await userRes.json();
     

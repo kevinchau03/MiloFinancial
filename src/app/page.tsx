@@ -22,7 +22,7 @@ export default function Home() {
       <div className="mt-8 flex flex-col items-center gap-4">
         {/* Button */}
         <Button>
-          <Link href="\signup">Start Now</Link>
+          <Link href="/signup">Start Now</Link>
         </Button>
       </div>
 
