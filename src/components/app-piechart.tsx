@@ -31,7 +31,6 @@ export default function CategoryChart() {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
-    console.log("User data loaded", storedUser);
   }, []);
 
   if (!user) {

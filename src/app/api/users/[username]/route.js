@@ -1,9 +1,13 @@
 import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb"; // Example MongoDB connection
+import clientPromise from "@/lib/mongodb"; 
 
 // GET - Fetch User by Username
 export async function GET(req, { params }) {
   const { username } = params;
+
+  if (!username) {
+    return NextResponse.json({ error: "Username is required." }, { status: 400 });
+  }
 
   try {
     const client = await clientPromise;

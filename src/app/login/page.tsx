@@ -19,13 +19,11 @@ export default function LoginPage() {
                 },
                 body: JSON.stringify({ username, password }),
             });
-    
             if (loginRes.ok) {
                 // Fetch user data after successful login
                 const userRes = await fetch(`/api/users/${username}`);
                 if (userRes.ok) {
                     const userData = await userRes.json();
-    
                     // Save only relevant user data to local storage
                     const userToSave = {
                         username: userData.username,
@@ -36,18 +34,19 @@ export default function LoginPage() {
                         revenue: userData.revenue,
                         transaction_history: userData.transaction_history,
                     };
-    
+
                     localStorage.setItem("user", JSON.stringify(userToSave));
-    
-                    // Log the saved user data to the console
-                    console.log("Saved user data:", userToSave);
-    
+
                     // Redirect to dashboard
                     router.push("/dashboard");
                 } else {
+    
+                    console.error("Failed to fetch user data:", await userRes.text());
                     alert("Failed to fetch user data.");
                 }
             } else {
+                const errorData = await loginRes.json();
+                console.error("Login error:", errorData.error);
                 alert("Invalid username or password");
             }
         } catch (error) {
@@ -55,27 +54,26 @@ export default function LoginPage() {
             alert("An error occurred. Please try again.");
         }
     };
-    
-
-        return (
-            <div className="flex flex-col items-center mx-4 text-center">
-                <h1 className="text-6xl font-bold my-6">Log In</h1>
-
-                {/* Input Fields */}
-                <label className="text-left">Username</label>
-                <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username..." />
-                <label className="text-left">Password</label>
-                <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter password..." />
 
 
-                <Button onClick={handleLogin}>Log In</Button>
+    return (
+        <div className="flex flex-col items-center mx-4 text-center">
+            <h1 className="text-6xl font-bold my-6">Log In</h1>
 
-                <p className="mt-4">
-                    Don't have an account?{" "}
-                    <Link href="/signup" className="text-blue-500 underline">
-                        Sign up
-                    </Link>
-                </p>
-            </div>
-        );
+            {/* Input Fields */}
+            <label className="text-left">Username</label>
+            <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username..." />
+            <label className="text-left">Password</label>
+            <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter password..." />
+
+            <Button onClick={handleLogin}>Log In</Button>
+
+            <p className="mt-4">
+                Don't have an account?{" "}
+                <Link href="/signup" className="text-blue-500 underline">
+                    Sign up
+                </Link>
+            </p>
+        </div>
+    );
 }

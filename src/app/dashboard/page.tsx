@@ -32,7 +32,6 @@ export default function Dashboard() {
 
   const userId = user?.username || "Kev";
   const voiceAPI = process.env.NEXT_PUBLIC_VOICEFLOW; // API Key from environment variable
-  console.log("Voice API Key:", voiceAPI);
 
   const launchChat = async () => {
     setLoading(true);
@@ -52,7 +51,6 @@ export default function Dashboard() {
       );
 
       const traces = response.data || [];
-      console.log("Traces received:", traces);
 
       setAgentResponse([]); // Clear previous responses
 

@@ -13,6 +13,7 @@ export async function POST(req) {
       return NextResponse.json({ error: "User not found." }, { status: 401 });
     }
 
+    // Compare password (bcrypt recommended)
     if (user.password !== password) {
       return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
     }
