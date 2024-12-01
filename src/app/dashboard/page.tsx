@@ -187,7 +187,7 @@ export default function Dashboard() {
           >
             <h1 className="text-2xl text-center">Milo, Your Financial Assistant
             </h1>
-            <img src="/Milo.jpg" alt="dog" className="w-1/4"/>
+            <img src="/Milo.jpg" alt="dog" className="w-1/4" />
             <div>
               {launch &&
                 <form onSubmit={handleSubmit} className="flex">
@@ -205,7 +205,7 @@ export default function Dashboard() {
                 <div className="mt-4">
                   {agentResponse.map((response, index) => (
                     <p key={index} className="text-sm">
-                      Milo: {response}
+                      Milo: {response || "... typing"}
                     </p>
                   ))}
                 </div>
