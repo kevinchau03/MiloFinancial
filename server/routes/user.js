@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 
-
 // GET back a user based on username
 router.get('/api/users/:username', async (req, res) => {
 
@@ -54,8 +53,12 @@ router.post('/api/users/login', async (req, res) => {
     try{
         const user = await req.db.collection('Users').findOne({ username })
         if (!user){
-            return res.status(404).send("Error user not found")
+            return res.status(401).send("Error user not found")
         }
+        //const isPasswordValid = await bcrypt.compare(password, user.password);
+        // if (!isPasswordValid) {
+        //     return res.status(401).send('Invalid credentials');
+        // }
 
         
         res.status(200).send('Login Success')

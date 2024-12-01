@@ -4,13 +4,12 @@ const express = require('express')
 const connectToDatabase = require('./connect')
 // Router for user data
 const userRouter = require('./routes/user')
-// Cors
-const cors = require('cors')
+const voiceflowRouter = require('./routes/voiceflow');
 
-const app = express ()
+const app = express()
 const port = 4000
 
-app.use(cors({ origin: "http://localhost:3000" }));
+
 app.use(express.static("public"))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
@@ -33,6 +32,7 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use('/', userRouter)
+app.use('/api/voiceflow', voiceflowRouter);
 
 // Console log the local server
 app.listen(port, () => {
