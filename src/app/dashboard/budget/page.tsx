@@ -92,11 +92,11 @@ export default function BudgetPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-center mb-4">Manage Your Budget</h1>
+      <h1 className="text-2xl font-bold text-center mb-4">Manually Manage Your Budget</h1>
 
       {/* Account Balance */}
       <div className="mb-4">
-        <label className="block mb-1">Account Balance:</label>
+        <label className="block mb-1">How much do you have now?</label>
         <Input
           type="number"
           value={budgetData.account_balance}
@@ -111,7 +111,7 @@ export default function BudgetPage() {
 
       {/* Budget */}
       <div className="mb-4">
-        <label className="block mb-1">Budget:</label>
+        <label className="block mb-1">What are your saving goals?</label>
         <Input
           type="number"
           value={budgetData.budget}
@@ -126,7 +126,7 @@ export default function BudgetPage() {
 
       {/* Expenses */}
       <div className="mb-4">
-        <label className="block mb-1">Expenses:</label>
+        <label className="block mb-1">How much do you spend a month?</label>
         <Input
           type="number"
           value={budgetData.expenses}
@@ -141,7 +141,7 @@ export default function BudgetPage() {
 
       {/* Revenue */}
       <div className="mb-4">
-        <label className="block mb-1">Revenue:</label>
+        <label className="block mb-1">How much do you make a month?</label>
         <Input
           type="number"
           value={budgetData.revenue}
