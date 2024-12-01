@@ -31,7 +31,7 @@ export default function BudgetPage() {
   }, []);
 
   // Handle input changes
-  const handleChange = (field, value) => {
+  const handleChange = (field: string, value: string) => {
     setBudgetData((prevData) => ({
       ...prevData,
       [field]: value,

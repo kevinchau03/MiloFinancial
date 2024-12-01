@@ -48,7 +48,7 @@ export default function Dashboard() {
 
       setAgentResponse([]); // Clear previous responses
 
-      traces.forEach((trace) => {
+      traces.forEach((trace: any) => {
         if (trace.type === "text") {
           console.log("Text:", trace.payload.message);
           setAgentResponse((prev) => [...prev, trace.payload.message]);
@@ -63,7 +63,7 @@ export default function Dashboard() {
     }
   };
 
-  async function sendQuery(text) {
+  async function sendQuery(text: string) {
     console.log("Sending query:", text);
     try {
       const response = await axios.post(
@@ -96,7 +96,7 @@ export default function Dashboard() {
     }
   }
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     sendQuery(query);
   }
