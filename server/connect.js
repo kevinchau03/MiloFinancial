@@ -30,4 +30,4 @@ async function connectToDatabase() {
   }
 }
 
-module.exports = connectToDatabase;8
+module.exports = connectToDatabase;
