@@ -4,6 +4,12 @@ import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
+interface Transaction {
+  purchase: string;
+  price: number;
+  date: string;
+}
+
 export default function BudgetPage() {
   const [budgetData, setBudgetData] = useState({
     username: "",
@@ -11,7 +17,7 @@ export default function BudgetPage() {
     budget: "",
     expenses: "",
     revenue: "",
-    transaction_history: {},
+    transaction_history: {} as Record<string, Transaction>,
   });
 
   // Load budget data from localStorage on page load

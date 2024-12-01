@@ -15,10 +15,18 @@ import CategoryChart from "@/components/app-piechart";
 import axios from "axios";
 
 export default function Dashboard() {
-  const [user, setUser] = useState(null);
+  interface User {
+    username: string;
+    expenses: number;
+    revenue: number;
+    budget: number;
+    account_balance: number;
+  }
+
+  const [user, setUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [launch, setLaunch] = useState(false);
-  const [agentResponse, setAgentResponse] = useState([]);
+  const [agentResponse, setAgentResponse] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
 
