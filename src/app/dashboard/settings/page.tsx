@@ -13,7 +13,7 @@ export default function Settings() {
         <label>Username</label>
         <Input placeholder="yuh" />
         <label>Email</label>
-        <Input placeholder="lol"/>
+        <Input placeholder="lol" />
         <label>Password</label>
         <Input placeholder="Password" type="password" />
       </div>

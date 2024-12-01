@@ -20,7 +20,7 @@ export default function Home() {
       <div className="mt-8 flex flex-col items-center gap-4">
         {/* Button */}
         <Button className="bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-200">
-          <a href="/api/auth/login">Start Now</a>
+          <Link href="\signup">Start Now</Link>
         </Button>
       </div>
 

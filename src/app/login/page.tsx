@@ -10,20 +10,52 @@ export default function LoginPage() {
     const router = useRouter();
 
     const handleLogin = async () => {
-        const res = await fetch("http://localhost:4000/api/users/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-        });
-
-        if (res.ok) {
-            router.push("/dashboard");
-        } else {
-            alert("Invalid username or password");
+        try {
+            // Login request
+            const loginRes = await fetch("http://localhost:4000/api/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+    
+            if (loginRes.ok) {
+                // Fetch user data after successful login
+                const userRes = await fetch(`http://localhost:4000/api/users/${username}`);
+                if (userRes.ok) {
+                    const userData = await userRes.json();
+    
+                    // Save only relevant user data to local storage
+                    const userToSave = {
+                        username: userData.username,
+                        email: userData.email,
+                        account_balance: userData.account_balance,
+                        budget: userData.budget,
+                        expenses: userData.expenses,
+                        revenue: userData.revenue,
+                        transaction_history: userData.transaction_history,
+                    };
+    
+                    localStorage.setItem("user", JSON.stringify(userToSave));
+    
+                    // Log the saved user data to the console
+                    console.log("Saved user data:", userToSave);
+    
+                    // Redirect to dashboard
+                    router.push("/dashboard");
+                } else {
+                    alert("Failed to fetch user data.");
+                }
+            } else {
+                alert("Invalid username or password");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            alert("An error occurred. Please try again.");
         }
-    }
+    };
+    
 
         return (
             <div className="flex flex-col items-center mx-4 text-center">

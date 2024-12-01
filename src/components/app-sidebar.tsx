@@ -1,4 +1,13 @@
-import { LayoutGrid, Home, Search, Settings, CircleDollarSign, LogIn } from "lucide-react"
+'use client'
+import { useRouter } from "next/navigation"; // For programmatic navigation
+import {
+    LayoutGrid,
+    Home,
+    Search,
+    Settings,
+    CircleDollarSign,
+    LogIn,
+} from "lucide-react";
 
 import {
     Sidebar,
@@ -9,24 +18,14 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// Menu items.
+// Menu items except Log Out (handled separately)
 const items = [
-    {
-        title: "WORTH!?",
-        url: "/",
-        icon: Search,
-    },
     {
         title: "Dashboard",
         url: "/dashboard",
-        icon: LayoutGrid,
-    },
-    {
-        title: "Settings",
-        url: "/dashboard/settings",
-        icon: Settings,
+        icon: Home,
     },
     {
         title: "Budget",
@@ -34,13 +33,21 @@ const items = [
         icon: CircleDollarSign,
     },
     {
-        title: "Log In/Sign Up",
-        url: "/signup",
-        icon: LogIn,
+        title: "Settings",
+        url: "/dashboard/settings",
+        icon: Settings,
     },
-]
+];
 
 export function AppSidebar() {
+    const router = useRouter();
+
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.clear();
+        router.push("/"); 
+    };
+
     return (
         <Sidebar>
             <SidebarContent>
@@ -48,6 +55,7 @@ export function AppSidebar() {
                     <SidebarGroupLabel>WORTH?!</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            {/* Render other menu items */}
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
@@ -58,10 +66,18 @@ export function AppSidebar() {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
+
+                            {/* Log Out Menu Item */}
+                            <SidebarMenuItem>
+                                <SidebarMenuButton onClick={handleLogout}>
+                                    <LogIn />
+                                    <span>Log Out</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
         </Sidebar>
-    )
+    );
 }
