@@ -10,7 +10,7 @@ export async function POST(req) {
 
   try {
     const client = await clientPromise;
-    const db = client.db("YourDatabase");
+    const db = client.db("Accounts");
 
     // Check if username or email already exists
     const existingUser = await db.collection("UserInfo").findOne({ username });
