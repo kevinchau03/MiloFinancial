@@ -12,10 +12,95 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import CategoryChart from "@/components/app-piechart";
+import axios from "axios";
 
 export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [launch, setLaunch] = useState(false);
+  const [agentResponse, setAgentResponse] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState('');
+
+  const userId = "Kev"; // Replace with dynamic user ID if needed
+  const voiceAPI = process.env.NEXT_PUBLIC_VOICEFLOW; // API Key from environment variable
+  console.log("Voice API Key:", voiceAPI);
+
+  const launchChat = async () => {
+    setLoading(true);
+    try {
+      console.log("Launching chat...");
+      const response = await axios.post(
+        `https://general-runtime.voiceflow.com/state/user/${userId}/interact`,
+        { request: { type: "launch" } },
+        {
+          headers: {
+            'Authorization': voiceAPI,
+            'versionID': 'production',
+            'accept': 'application/json',
+            'content-type': 'application/json'
+          }
+        }
+      );
+
+      const traces = response.data || [];
+      console.log("Traces received:", traces);
+
+      setAgentResponse([]); // Clear previous responses
+
+      traces.forEach((trace) => {
+        if (trace.type === "text") {
+          console.log("Text:", trace.payload.message);
+          setAgentResponse((prev) => [...prev, trace.payload.message]);
+        }
+      });
+
+      setLaunch(true);
+    } catch (error) {
+      console.error("Error launching chat:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  async function sendQuery(text) {
+    console.log("Sending query:", text);
+    try {
+      const response = await axios.post(
+        `https://general-runtime.voiceflow.com/state/user/${userId}/interact`,
+        { request: { type: "text", payload: text } },
+        {
+          headers: {
+            'Authorization': voiceAPI,
+            'versionID': 'production',
+            'accept': 'application/json',
+            'content-type': 'application/json'
+          }
+        }
+      );
+
+      const traces = response.data || [];
+      console.log("Traces received:", traces);
+
+      setAgentResponse([]); // Clear previous responses
+
+      for (let trace of traces) {
+        if (trace.type === "text") {
+          console.log("Text:", trace.payload.message);
+          setAgentResponse(agentResponse => [...agentResponse, trace.payload.message]);
+        }
+      }
+    } catch (error) {
+      console.error("Error sending query:", error);
+      setAgentResponse(["An error occurred. Please try again."]);
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    sendQuery(query);
+  }
+
 
   useEffect(() => {
     // Retrieve user data from local storage
@@ -26,13 +111,8 @@ export default function Dashboard() {
     console.log("User data loaded", storedUser);
   }, []);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   if (!user) {
     return <p className="text-center">Loading user data...</p>;
@@ -83,12 +163,7 @@ export default function Dashboard() {
         <CategoryChart />
       </div>
       <div className="flex gap-4">
-        <Button
-          variant="default"
-          size="lg"
-          onClick={handleOpenModal}
-          className="flex-grow"
-        >
+        <Button variant="default" size="lg" onClick={handleOpenModal} className="flex-grow">
           Talk To Assistant
         </Button>
         <Link href="/dashboard/budget" className="flex-grow">
@@ -97,26 +172,48 @@ export default function Dashboard() {
           </Button>
         </Link>
       </div>
-
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
           onClick={handleCloseModal}
         >
           <div
-            className="bg-card rounded-lg p-4 shadow-lg max-w-sm w-full"
-            onClick={(e) => e.stopPropagation()} // Prevent closing modal when clicking inside
+            className="flex flex-col gap-4  bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-bold mb-4">Assistant</h2>
-            <p>How can I assist you today?</p>
-            <div className="mt-4 flex justify-end">
-              <Button variant="default" size="sm" onClick={handleCloseModal}>
-                Close
-              </Button>
+            <h1 className="text-2xl text-center">Milo, Your Financial Assistant</h1>
+            <div>
+              {launch &&
+                <form onSubmit={handleSubmit} className="flex">
+                  <input
+                    type="text"
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    placeholder="Type your message here..."
+                    className="w-full p-2 border border-gray-300 rounded-lg"
+                  />
+                  <button type="submit" className="p-2">Send</button>
+                </form>
+              }
+              {agentResponse.length > 0 && (
+                <div className="mt-4">
+                  {agentResponse.map((response, index) => (
+                    <p key={index} className="text-sm text-gray-500">
+                      {response}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
+            {!launch &&
+                <Button onClick={launchChat} disabled={loading} variant="default">
+                  {loading ? "Loading..." : "Launch Chat"}
+                </Button>
+              }
           </div>
         </div>
       )}
     </div>
   );
 }
+
