@@ -180,21 +180,16 @@ export default function Dashboard() {
       </div>
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
-        >
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
           <div
-            className="flex flex-col gap-4 bg-card rounded-lg p-4 shadow-lg max-w-md w-full relative"
+            className="flex flex-col gap-4 bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
           >
-            <button
-              onClick={handleCloseModal}
-              className="absolute top-2 right-2 text-lg font-bold"
-            >
-              &times;
-            </button>
-            <h1 className="text-2xl text-center">Milo, Your Financial Assistant</h1>
-            <img src="/Milo.jpg" alt="dog" className="w-1/4 mx-auto" />
+            <h1 className="text-2xl text-center">Milo, Your Financial Assistant
+            </h1>
+            <img src="/Milo.jpg" alt="dog" className="w-1/4"/>
             <div>
-              {launch && (
+              {launch &&
                 <form onSubmit={handleSubmit} className="flex">
                   <input
                     type="text"
@@ -203,11 +198,9 @@ export default function Dashboard() {
                     placeholder="Type your message here..."
                     className="w-full p-2 border border-gray-300 rounded-lg"
                   />
-                  <button type="submit" className="p-2">
-                    Send
-                  </button>
+                  <button type="submit" className="p-2">Send</button>
                 </form>
-              )}
+              }
               {agentResponse.length > 0 && (
                 <div className="mt-4">
                   {agentResponse.map((response, index) => (
@@ -218,19 +211,17 @@ export default function Dashboard() {
                 </div>
               )}
             </div>
-            {!launch && (
+            {!launch &&
               <Button onClick={launchChat} disabled={loading} variant="default">
                 {loading ? "Loading..." : "Launch Chat"}
               </Button>
-            )}
+            }
           </div>
-          <div
-            className="absolute inset-0"
-            onClick={handleCloseModal}
-          ></div>
+          <Button onClick={handleCloseModal} className="absolute top-4 right-4">
+            Close
+          </Button>
         </div>
       )}
-
     </div>
   );
 }
