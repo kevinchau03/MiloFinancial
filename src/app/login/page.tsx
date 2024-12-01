@@ -12,7 +12,7 @@ export default function LoginPage() {
     const handleLogin = async () => {
         try {
             // Login request
-            const loginRes = await fetch("http://localhost:4000/api/users/login", {
+            const loginRes = await fetch("/api/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

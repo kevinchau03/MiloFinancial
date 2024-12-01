@@ -11,7 +11,7 @@ export default function SignupPage() {
     const router = useRouter();
 
     const handleSignup = async () => {
-        const res = await fetch("http://localhost:4000/api/users/register", {
+        const res = await fetch("/api/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

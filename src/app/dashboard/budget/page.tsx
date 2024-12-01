@@ -57,7 +57,7 @@ export default function BudgetPage() {
       };
 
       // Send PUT request to update user data
-      const response = await fetch(`http://localhost:4000/api/users/${budgetData.username}`, {
+      const response = await fetch(`/api/users/${budgetData.username}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
