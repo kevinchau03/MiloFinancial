@@ -15,7 +15,7 @@ export default function Home() {
             visual tools.
           </p>
         </div>
-        <img src="/milo.jpg" alt="Milo Financial Aid" className="w-1/2 mx-auto mt-8 rounded-md" />
+        <img src="Milo.jpg" alt="Milo Financial Aid" className="w-1/2 mx-auto mt-8 rounded-md" />
       </div>
 
       {/* Call-to-Action Section */}

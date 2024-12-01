@@ -187,7 +187,9 @@ export default function Dashboard() {
             className="flex flex-col gap-4 bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
-            <h1 className="text-2xl text-center">Milo, Your Financial Assistant</h1>
+            <h1 className="text-2xl text-center">Milo, Your Financial Assistant
+            </h1>
+            <img src="/Milo.jpg" alt="dog" className="w-1/4"/>
             <div>
               {launch &&
                 <form onSubmit={handleSubmit} className="flex">
@@ -212,10 +214,10 @@ export default function Dashboard() {
               )}
             </div>
             {!launch &&
-                <Button onClick={launchChat} disabled={loading} variant="default">
-                  {loading ? "Loading..." : "Launch Chat"}
-                </Button>
-              }
+              <Button onClick={launchChat} disabled={loading} variant="default">
+                {loading ? "Loading..." : "Launch Chat"}
+              </Button>
+            }
           </div>
         </div>
       )}
