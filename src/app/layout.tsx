@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Worth?",
+  title: "Milo Financial Aid",
   description: "A budgetting assistant in your wallet",
 };
 

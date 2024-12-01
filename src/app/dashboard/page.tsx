@@ -22,7 +22,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [query, setQuery] = useState('');
 
-  const userId = "Kev"; // Replace with dynamic user ID if needed
+  const userId = user?.username || "Kev";
   const voiceAPI = process.env.NEXT_PUBLIC_VOICEFLOW; // API Key from environment variable
   console.log("Voice API Key:", voiceAPI);
 
@@ -120,7 +120,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold text-center">{user.username}'s Dashboard</h1>
+      <h1 className="text-2xl font-bold text-center">Welcome {user.username}, to your dashboard</h1>
       <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
         <Card>
           <CardHeader>
@@ -174,11 +174,11 @@ export default function Dashboard() {
       </div>
       {isModalOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
           onClick={handleCloseModal}
         >
           <div
-            className="flex flex-col gap-4  bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
+            className="flex flex-col gap-4 bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
             onClick={(e) => e.stopPropagation()}
           >
             <h1 className="text-2xl text-center">Milo, Your Financial Assistant</h1>
@@ -198,8 +198,8 @@ export default function Dashboard() {
               {agentResponse.length > 0 && (
                 <div className="mt-4">
                   {agentResponse.map((response, index) => (
-                    <p key={index} className="text-sm text-gray-500">
-                      {response}
+                    <p key={index} className="text-sm">
+                      Milo: {response}
                     </p>
                   ))}
                 </div>

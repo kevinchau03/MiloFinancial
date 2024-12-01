@@ -59,7 +59,7 @@ export default function LoginPage() {
 
         return (
             <div className="flex flex-col items-center mx-4 text-center">
-                <h1 className="text-6xl font-bold my-6">Worth</h1>
+                <h1 className="text-6xl font-bold my-6">Log In</h1>
 
                 {/* Input Fields */}
                 <label className="text-left">Username</label>

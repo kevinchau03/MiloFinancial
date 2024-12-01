@@ -87,9 +87,9 @@ export default function CategoryChart() {
 
   return (
     <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
+      <CardHeader className="items-left pb-0">
         <CardTitle>Transaction Breakdown</CardTitle>
-        <CardDescription>Organized by Purchase</CardDescription>
+        <CardDescription>Organized by category.</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

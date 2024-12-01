@@ -6,20 +6,23 @@ export default function Home() {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center">
       {/* Header Section */}
-      <div className="text-center max-w-2xl">
-        <h1 className="font-bold text-6xl mb-4">Worth It?</h1>
-        <p className="text-lg leading-relaxed">
-          Take control of your finances with <span className="font-semibold">Worth It</span>, 
-          the budgeting app designed for students. Track expenses, set goals, and manage 
-          your income effortlessly—all through an intuitive voice assistant and powerful 
-          visual tools.
-        </p>
+      <div className="max-w-4xl">
+        <div className="flex flex-col items-center ">
+          <h1 className="font-bold text-6xl mb-4">Milo Financial Aid</h1>
+          <p className="text-lg leading-relaxed">
+            Take control of your finances with <span className="font-semibold">Milo Financial Aid</span>,
+            the budgeting pet designed for students. Track expenses, set goals, and manage
+            your income effortlessly—all through an intuitive voice assistant and powerful
+            visual tools.
+          </p>
+        </div>
+        <img src="/milo.jpg" alt="Milo Financial Aid" className="w-1/2 mx-auto mt-8 rounded-md" />
       </div>
 
       {/* Call-to-Action Section */}
       <div className="mt-8 flex flex-col items-center gap-4">
         {/* Button */}
-        <Button className="bg-white text-blue-600 px-6 py-3 font-semibold hover:bg-gray-200">
+        <Button>
           <Link href="\signup">Start Now</Link>
         </Button>
       </div>
