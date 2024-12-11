@@ -1,79 +1,60 @@
 "use client";
-import React, { useState } from "react";
+import { FormEvent, useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 
-export default function LoginPage() {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const router = useRouter();
+export default function Login() {
+    const [error, setError] = useState("");
+const router = useRouter();
 
-    const handleLogin = async () => {
-        try {
-            // Login request
-            const loginRes = await fetch("/api/users/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
-            if (loginRes.ok) {
-                // Fetch user data after successful login
-                const userRes = await fetch(`/api/users/${username}`);
-                if (userRes.ok) {
-                    const userData = await userRes.json();
-                    // Save only relevant user data to local storage
-                    const userToSave = {
-                        username: userData.username,
-                        email: userData.email,
-                        account_balance: userData.account_balance,
-                        budget: userData.budget,
-                        expenses: userData.expenses,
-                        revenue: userData.revenue,
-                        transaction_history: userData.transaction_history,
-                    };
-
-                    localStorage.setItem("user", JSON.stringify(userToSave));
-
-                    // Redirect to dashboard
-                    router.push("/dashboard");
-                } else {
-    
-                    console.error("Failed to fetch user data:", await userRes.text());
-                    alert("Failed to fetch user data.");
-                }
-            } else {
-                const errorData = await loginRes.json();
-                console.error("Login error:", errorData.error);
-                alert("Invalid username or password");
-            }
-        } catch (error) {
-            console.error("Error during login:", error);
-            alert("An error occurred. Please try again.");
-        }
-    };
-
-
-    return (
-        <div className="flex flex-col items-center mx-4 text-center">
-            <h1 className="text-6xl font-bold my-6">Log In</h1>
-
-            {/* Input Fields */}
-            <label className="text-left">Username</label>
-            <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" onChange={(e) => setUsername(e.target.value)} placeholder="Enter Username..." />
-            <label className="text-left">Password</label>
-            <input className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg" type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Enter password..." />
-
-            <Button onClick={handleLogin}>Log In</Button>
-
-            <p className="mt-4">
-                Don't have an account?{" "}
-                <Link href="/signup" className="text-blue-500 underline">
-                    Sign up
-                </Link>
-            </p>
+const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const res = await signIn("credentials", {
+      email: formData.get("email"),
+      password: formData.get("password"),
+      redirect: false,
+    });
+    if (res?.error) {
+      setError(res.error as string);
+    }
+    if (res?.ok) {
+      return router.push("/");
+    }
+};
+return (
+    <section className="w-full h-screen flex items-center justify-center">
+      <form
+        className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
+        border border-solid border-black bg-white rounded"
+        onSubmit={handleSubmit}>
+        {error && <div className="text-black">{error}</div>}
+        <h1 className="mb-5 w-full text-2xl font-bold">Sign In</h1>
+        <label className="w-full text-sm">Email</label>
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full h-8 border border-solid border-black rounded p-2"
+          name="email" />
+        <label className="w-full text-sm">Password</label>
+        <div className="flex w-full">
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full h-8 border border-solid border-black rounded p-2"
+            name="password" />
         </div>
-    );
-}
+        <button className="w-full border border-solid border-black rounded">
+          Sign In
+        </button>
+
+        <Link
+          href="/signup"
+          className="text-sm text-[#888] transition duration-150 ease hover:text-black">
+          Don't have an account?
+        </Link>
+      </form>
+    </section>
+);
+};

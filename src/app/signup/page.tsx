@@ -1,70 +1,73 @@
 "use client";
-import React, { useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { register } from "@/actions/register";
 
-export default function SignupPage() {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const router = useRouter();
 
-    const handleSignup = async () => {
-        const res = await fetch("/api/users/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, email, password }),
-        });
-
-        if (res.ok) {
-            alert("Account created successfully!");
-            router.push("/login"); // Redirect to login page after successful signup
-        } else {
-            const errorData = await res.json();
-            alert(errorData.error || "Failed to create account.");
-        }
-    };
-
-    return (
-        <div className="flex flex-col items-center mx-4 text-center">
-            <h1 className="text-6xl font-bold my-6">Sign Up</h1>
-
-            {/* Input Fields */}
-            <label className="text-left w-full">Username</label>
+export default function Register() {
+  const [error, setError] = useState<string>();
+  const router = useRouter();
+  const ref = useRef<HTMLFormElement>(null);
+  const handleSubmit = async (formData: FormData) => {
+    const r = await register({
+        email: formData.get("email"),
+        password: formData.get("password"),
+        name: formData.get("name")    
+      });
+      ref.current?.reset();
+      if(r?.error){
+        setError(r.error);
+        return;
+      } else {
+        return router.push("/login");
+      }
+};
+return(
+    <section className="w-full h-screen flex items-center justify-center">
+          <form ref = {ref}
+            action={handleSubmit}
+            className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
+            border border-solid border-black bg-white rounded">
+            {error && <div className="">{error}</div>}
+            <h1 className="mb-5 w-full text-2xl font-bold">Register</h1>
+    
+            <label className="w-full text-sm">Full Name</label>
             <input
-                className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter Username..."
+              type="text"
+              placeholder="Full Name"
+              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-[13px]"
+              name="name"
             />
-            <label className="text-left w-full">Email</label>
+    
+            <label className="w-full text-sm">Email</label>
             <input
-                className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter Email..."
-                type="email"
+              type="email"
+              placeholder="Email"
+              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+              name="email"
             />
-            <label className="text-left w-full">Password</label>
-            <input
-                className="w-full p-2 mb-4 border-2 border-gray-300 rounded-lg"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter Password..."
+    
+            <label className="w-full text-sm">Password</label>
+            <div className="flex w-full">
+              <input
                 type="password"
-            />
-
-            <Button onClick={handleSignup}>Sign Up</Button>
-
-            <p className="mt-4">
-                Already have an account?{" "}
-                <Link href="/login" className="text-blue-500 underline">
-                    Log in
-                </Link>
-            </p>
-        </div>
-    );
+                placeholder="Password"
+                className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+                name="password"
+              />
+            </div>
+    
+            <button className="w-full border border-solid border-black py-1.5 mt-2.5 rounded
+            transition duration-150 ease hover:bg-black">
+              Sign up
+            </button>
+    
+            
+            <Link href="/login" className="text-sm text-[#888] transition duration-150 ease hover:text-black">
+              Already have an account?
+              </Link>
+          </form>
+    </section>
+    )
 }
