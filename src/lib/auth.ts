@@ -1,37 +1,82 @@
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
-import type { NextAuthOptions } from "next-auth";
-import credentials from "next-auth/providers/credentials";
+import type { NextAuthOptions, Session, JWT } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
-export const authOptions: NextAuthOptions  = {
-    providers: [
-      credentials({
-        name: "Credentials",
-        id: "credentials",
-        credentials: {
-          email: { label: "Email", type: "text" },
-          password: { label: "Password", type: "password" },
-        },
-        async authorize(credentials) {
-            await connectDB();
-const user = await User.findOne({
-  email: credentials?.email,
-}).select("+password");
+declare module "next-auth" {
+  interface Session {
+    user: {
+      id: string;
+      email: string;
+      name: string;
+    };
+  }
 
-if (!user) throw new Error("Wrong Email");
+  interface JWT {
+    id: string;
+    email: string;
+    name: string;
+  }
+}
 
-const passwordMatch = await bcrypt.compare(
-  credentials!.password,
-  user.password
-);
+export const authOptions: NextAuthOptions = {
+  providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      id: "credentials",
+      credentials: {
+        email: { label: "Email", type: "text", placeholder: "Your email" },
+        password: { label: "Password", type: "password", placeholder: "Your password" },
+      },
+      async authorize(credentials) {
+        // Connect to the database
+        await connectDB();
 
-if (!passwordMatch) throw new Error("Wrong Password");
-return user;
-        },
-      }),
-    ],
-    session: {
-      strategy: "jwt",
-    }
-  };
+        // Find the user in the database
+        const user = await User.findOne({ email: credentials?.email }).select("+password");
+
+        if (!user) {
+          throw new Error("Invalid email or password.");
+        }
+
+        // Compare the provided password with the stored hashed password
+        const isPasswordValid = await bcrypt.compare(credentials!.password, user.password);
+        if (!isPasswordValid) {
+          throw new Error("Invalid email or password.");
+        }
+
+        // Return user object without the password field
+        return { id: user._id, email: user.email, name: user.name };
+      },
+    }),
+  ],
+  session: {
+    strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        // Add user details to the token
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name; // Include the full name
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Include token details in the session
+      session.user = {
+        id: token.id,
+        email: token.email,
+        name: token.name, // Include the full name
+      };
+      return session;
+    },
+  },
+  pages: {
+    signIn: "/login", // Redirect to a custom login page
+    error: "/login", // Redirect to login page on error
+  },
+  secret: process.env.NEXTAUTH_SECRET,
+};

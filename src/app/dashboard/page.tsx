@@ -1,227 +1,50 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import CategoryChart from "@/components/app-piechart";
-import axios from "axios";
+import { signOut, useSession, signIn } from "next-auth/react";
+import { useRouter }  from "next/navigation";
 
 export default function Dashboard() {
-  interface User {
-    username: string;
-    expenses: number;
-    revenue: number;
-    budget: number;
-    account_balance: number;
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
   }
 
-  const [user, setUser] = useState<User | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [launch, setLaunch] = useState(false);
-  const [agentResponse, setAgentResponse] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState('');
-
-  const userId = user?.username || "Kev";
-  const voiceAPI = process.env.NEXT_PUBLIC_VOICEFLOW; // API Key from environment variable
-
-  const launchChat = async () => {
-    setLoading(true);
-    try {
-      console.log("Launching chat...");
-      const response = await axios.post(
-        `https://general-runtime.voiceflow.com/state/user/${userId}/interact`,
-        { request: { type: "launch" } },
-        {
-          headers: {
-            'Authorization': voiceAPI,
-            'versionID': 'production',
-            'accept': 'application/json',
-            'content-type': 'application/json'
-          }
-        }
-      );
-
-      const traces = response.data || [];
-
-      setAgentResponse([]); // Clear previous responses
-
-      traces.forEach((trace: any) => {
-        if (trace.type === "text") {
-          console.log("Text:", trace.payload.message);
-          setAgentResponse((prev) => [...prev, trace.payload.message]);
-        }
-      });
-
-      setLaunch(true);
-    } catch (error) {
-      console.error("Error launching chat:", error);
-    } finally {
-      setLoading(false);
+  const handleAuthAction = () => {
+    if (status === "authenticated") {
+      signOut({ redirect: false }).then(() => router.push("/"));
+    } else {
+      signIn(); // Redirects to the sign-in page or provider selection
     }
   };
 
-  async function sendQuery(text: string) {
-    console.log("Sending query:", text);
-    try {
-      const response = await axios.post(
-        `https://general-runtime.voiceflow.com/state/user/${userId}/interact`,
-        { request: { type: "text", payload: text } },
-        {
-          headers: {
-            'Authorization': voiceAPI,
-            'versionID': 'production',
-            'accept': 'application/json',
-            'content-type': 'application/json'
-          }
-        }
-      );
+  const fullName = session?.user?.name || "Guest";
 
-      const traces = response.data || [];
-      console.log("Traces received:", traces);
-
-      setAgentResponse([]); // Clear previous responses
-
-      for (let trace of traces) {
-        if (trace.type === "text") {
-          console.log("Text:", trace.payload.message);
-          setAgentResponse(agentResponse => [...agentResponse, trace.payload.message]);
-        }
-      }
-    } catch (error) {
-      console.error("Error sending query:", error);
-      setAgentResponse(["An error occurred. Please try again."]);
-    }
-  }
-
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    sendQuery(query);
-  }
-
-
-  useEffect(() => {
-    // Retrieve user data from local storage
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-    console.log("User data loaded", storedUser);
-  }, []);
-
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
-  if (!user) {
-    return <p className="text-center">Loading user data...</p>;
-  }
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold text-center">Welcome {user.username}, to your dashboard</h1>
-      <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Expenses:</CardTitle>
-            <CardDescription>How much are you spending?</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">${user.expenses}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Total Income:</CardTitle>
-            <CardDescription>How much are you making?</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">${user.revenue}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Savings Goal:</CardTitle>
-            <CardDescription>Japan Trip</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">${user.budget}</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Balance:</CardTitle>
-            <CardDescription>Your Balance</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-3xl font-bold">${user.account_balance}</p>
-          </CardContent>
-        </Card>
-      </div>
-      <div>
-        <CategoryChart />
-      </div>
-      <div className="flex gap-4">
-        <Button variant="default" size="lg" onClick={handleOpenModal} className="flex-grow">
-          Talk To Assistant
-        </Button>
-        <Link href="/dashboard/budget" className="flex-grow">
-          <Button variant="default" size="lg" className="w-full">
-            Edit Manually
-          </Button>
-        </Link>
-      </div>
-      {isModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div
-            className="flex flex-col gap-4 bg-card rounded-lg p-4 shadow-lg max-w-md w-full"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h1 className="text-2xl text-center">Milo, Your Financial Assistant
-            </h1>
-            <img src="/Milo.jpg" alt="dog" className="w-1/4" />
-            <div>
-              {launch &&
-                <form onSubmit={handleSubmit} className="flex">
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="Type your message here..."
-                    className="w-full p-2 border border-gray-300 rounded-lg"
-                  />
-                  <button type="submit" className="p-2">Send</button>
-                </form>
-              }
-              {agentResponse.length > 0 && (
-                <div className="mt-4">
-                  {agentResponse.map((response, index) => (
-                    <p key={index} className="text-sm">
-                      Milo: {response || "... typing"}
-                    </p>
-                  ))}
-                </div>
-              )}
-            </div>
-            {!launch &&
-              <Button onClick={launchChat} disabled={loading} variant="default">
-                {loading ? "Loading..." : "Launch Chat"}
-              </Button>
-            }
-          </div>
-          <Button onClick={handleCloseModal} className="absolute top-4 right-4">
-            Close
-          </Button>
+    <div className="w-screen h-screen flex flex-col gap-4 justify-between">
+      <h1 className="text-3xl font-bold">Welcome to your Dashboard, {fullName} </h1>
+      <div className="grid lg:grid-cols-3">
+        <div className="bg-blue-400 p-2 rounded-lg flex flex-col max-w-md min-h-md">
+          <h2 className="text-xl font-semibold">Account Balance:</h2>
+          <p className="text-gray-600">$10,576.98</p>
         </div>
-      )}
+        <div className="bg-blue-400 p-2 rounded-lg flex flex-col max-w-md min-h-md">
+          <h2 className="text-xl font-semibold">Total Expenses:</h2>
+          <p className="text-gray-600">$5032.11</p>
+        </div>
+        <div className="bg-blue-400 p-2 rounded-lg flex flex-col max-w-md min-h-md">
+          <h2 className="text-xl font-semibold">Current Budget Goal:</h2>
+          <p className="text-gray-600">$15,609.09</p>
+        </div>
+      </div>
+      <button
+          onClick={handleAuthAction}
+          className="px-4 py-2 bg-white text-blue-500 rounded hover:bg-gray-200 transition"
+        >
+          {status === "authenticated" ? "Sign Out" : "Sign In"}
+        </button>
     </div>
   );
 }
