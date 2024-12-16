@@ -6,9 +6,22 @@ import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const { data: session, status } = useSession(); // Always call this hook at the top
-  const [financeData, setFinanceData] = useState(null);
+  interface FinanceData {
+    accountBalance: number;
+    expenses: number;
+    income: number;
+    transactions: {
+      transactionId: string;
+      description: string;
+      amount: number;
+      date: string;
+      category: string;
+    }[];
+  }
+
+  const [financeData, setFinanceData] = useState<FinanceData | null>(null);
   const [loadingFinance, setLoadingFinance] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   // Fetch finance data
@@ -23,7 +36,11 @@ export default function Dashboard() {
           const data = await response.json();
           setFinanceData(data);
         } catch (err) {
-          setError(err.message);
+          if (err instanceof Error) {
+            setError(err.message);
+          } else {
+            setError("An unknown error occurred");
+          }
         } finally {
           setLoadingFinance(false);
         }
