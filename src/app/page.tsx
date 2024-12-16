@@ -38,7 +38,6 @@ export default function Home() {
         </p>
         {renderAuthButton()}
       </div>
-      <Image src="/Milo.jpg" alt="Milo" width={500} height={500} className="rounded-xl"/>
     </main>
   );
 }
