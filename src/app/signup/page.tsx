@@ -11,9 +11,9 @@ export default function Register() {
   const ref = useRef<HTMLFormElement>(null);
   const handleSubmit = async (formData: FormData) => {
     const r = await register({
-        email: formData.get("email"),
-        password: formData.get("password"),
-        name: formData.get("name")    
+        email: formData.get("email") as string || "",
+        password: formData.get("password") as string || "",
+        name: formData.get("name") as string || ""
       });
       ref.current?.reset();
       if(r?.error){
