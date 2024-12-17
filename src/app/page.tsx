@@ -3,15 +3,18 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function Home() {
   const { status } = useSession();
   const router = useRouter();
 
   // Redirect authenticated users to the dashboard
-  if (status === "authenticated") {
-    router.push("/dashboard");
-  }
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/dashboard");
+    }
+  }, [status, router]);
 
   const renderAuthButton = () => {
     if (status === "loading") {

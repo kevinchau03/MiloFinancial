@@ -10,8 +10,9 @@ export default {
   theme: {
   	extend: {
   		colors: {
-  			foreground: '#FFFFFF',
-        accent: '#13113F',
+        background: '#151b23',
+  			foreground: '#212830',
+        accent: '#262c36',
 		}
 	},
   },
