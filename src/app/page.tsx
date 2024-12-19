@@ -23,7 +23,7 @@ export default function Home() {
     return (
       <Link
         href="/login"
-        className="mt-4 p-4 border-white border-2 rounded-full transition-all"
+        className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
       >
         Sign In
       </Link>
@@ -33,11 +33,11 @@ export default function Home() {
   return (
     <main className="w-screen flex flex-col min-h-screen items-center justify-center px-6 lg:flex-row">
       <div className="w-1/2 p-8">
-        <h1 className="text-6xl font-bold mb-4">Milo Financial</h1>
+        <h1 className="text-9xl font-bold mb-4">Milo Financial</h1>
         <p className="text-sm mb-6 md:text-base">
           Empower your financial journey with Milo, your AI financial advisor. Make smarter
           financial decisions by tracking your spending, visualizing trends, and receiving
-          personalized advice.
+          personalized advice. Coming soon...
         </p>
         {renderAuthButton()}
       </div>

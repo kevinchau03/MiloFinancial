@@ -112,29 +112,26 @@ export default function Dashboard() {
         {/* Finance Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-grow">
           <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold">Account Balance
-              <Wallet size={24} />
+            <h2 className="text-xl font-semibold"><Wallet size={24} />
+            Account Balance
             </h2>
             <p className="text-4xl font-bold">${financeData?.accountBalance}</p>
             <p className="text-md ">20% change since last month.</p>
           </div>
           <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold">Total Expenses
-              <CircleDollarSign size={24} />
+            <h2 className="text-xl font-semibold"><CircleDollarSign size={24} />Total Expenses
             </h2>
             <p className="text-4xl font-bold">${financeData?.expenses}</p>
             <p className="text-md ">20% change since last month.</p>
           </div>
           <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold">Total Income
-              <HandCoins size={24} />
+            <h2 className="text-xl font-semibold"><HandCoins size={24} />Total Income
             </h2>
             <p className="text-4xl font-bold">${financeData?.income}</p>
             <p className="text-md ">20% change since last month.</p>
           </div>
           <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold">Budget Goals:
-              <PiggyBank size={24} />
+            <h2 className="text-xl font-semibold"><PiggyBank size={24} />Budget Goals
             </h2>
             <p className="text-4xl font-bold">$5000.00</p>
             <p className="text-md ">50% to goal.</p>

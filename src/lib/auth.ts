@@ -67,13 +67,14 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       // Include token details in the session
       session.user = {
-        id: token.id,
-        email: token.email,
-        name: token.name, // Include the full name
+        id: typeof token.id === "string" ? token.id : "", // Ensure id is a string
+        email: token.email || "",
+        name: token.name || "", // Include the full name
       };
       return session;
     },
   },
+
   pages: {
     signIn: "/login", // Redirect to a custom login page
     error: "/login", // Redirect to login page on error
