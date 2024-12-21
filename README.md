@@ -22,3 +22,8 @@ Styling: TailwindCSS
 ## If you like this project..
 
 Feel free to make a contribution!
+
+## Images 
+
+<a href="https://www.freepik.com/free-vector/financial-data-management-abstract-concept-illustration_12291080.htm#fromView=keyword&page=1&position=22&uuid=af5cb604-912e-4795-ad3c-399e6f7fb5ac&new_detail=true">Image by vectorjuice on Freepik</a>
+<a href="https://www.freepik.com/free-vector/brain-with-digital-circuit-programmer-with-laptop-machine-learning-artificial-intelligence-digital-brain-artificial-thinking-process-concept-vector-isolated-illustration_11668759.htm#fromView=search&page=1&position=12&uuid=734ee069-0e0a-48b6-bea8-51de5702e1a7&new_detail=true">Image by vectorjuice on Freepik</a>
