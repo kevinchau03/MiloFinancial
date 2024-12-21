@@ -28,7 +28,7 @@ return(
           <form ref = {ref}
             action={handleSubmit}
             className="p-6 w-full max-w-[400px] flex flex-col justify-between items-center gap-2 
-            border border-solid border-white rounded text-black">
+            border border-solid border-white rounded">
             {error && <div className="">{error}</div>}
             <h1 className="mb-5 w-full text-2xl font-bold">Register</h1>
     
@@ -36,7 +36,7 @@ return(
             <input
               type="text"
               placeholder="Full Name"
-              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-[13px]"
+              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-[13px] text-black"
               name="name"
             />
     
@@ -44,7 +44,7 @@ return(
             <input
               type="email"
               placeholder="Email"
-              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+              className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-black"
               name="email"
             />
     
@@ -53,7 +53,7 @@ return(
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded"
+                className="w-full h-8 border border-solid border-black py-1 px-2.5 rounded text-black"
                 name="password"
               />
             </div>
@@ -64,7 +64,7 @@ return(
             </button>
     
             
-            <Link href="/login" className="text-sm text-[#888] transition duration-150 ease hover:text-black">
+            <Link href="/login" className="text-sm transition duration-150 ease hover">
               Already have an account?
               </Link>
           </form>

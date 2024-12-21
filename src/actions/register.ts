@@ -1,7 +1,8 @@
-"use server"
+"use server";
 import { connectDB } from "@/lib/mongodb";
 import User from "@/models/User";
 import Finance from "@/models/Finance";
+import Budget from "@/models/Budget";
 import bcrypt from "bcryptjs";
 
 export const register = async ({ email, password, name }: { email: string; password: string; name: string }) => {
@@ -32,6 +33,12 @@ export const register = async ({ email, password, name }: { email: string; passw
       expenses: 0,
       income: 0,
       transactions: [], // Empty transactions array
+    });
+
+    // Create a budget entry linked to this user
+    await Budget.create({
+      userId: newUser._id, // Link the user's ID to the budget record
+      budget: [], // Empty array for categories
     });
 
     return { success: true };

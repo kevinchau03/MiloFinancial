@@ -97,43 +97,51 @@ export default function Dashboard() {
 
   // Main dashboard content
   return (
-    <div className="w-screen h-screen flex flex-col">
+    <div className="w-screen min-h-screen">
       <header className="w-full flex justify-between items-center p-4 text-white">
-        <h1 className="text-2xl font-bold">Welcome, {fullName}</h1>
-        <button
-          onClick={handleAuthAction}
-          className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
-        >
-          {status === "authenticated" ? "Sign Out" : "Sign In"}
-        </button>
+        <h1 className="text-2xl font-bold">milofinancial</h1>
+        <div className="flex gap-2">
+          <button onClick={() => router.push("/dashboard/budget")} className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground">
+          Edit Budget
+          </button>
+          <button onClick={() => router.push("/profile")} className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground">
+            Connect Bank
+          </button>
+          <button
+            onClick={handleAuthAction}
+            className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
+          >
+            {status === "authenticated" ? "Sign Out" : "Sign In"}
+          </button>
+        </div>
       </header>
 
-      <main className="flex flex-grow flex-col p-4 gap-4">
+      <main className="w-full flex container p-4 gap-4">
         {/* Finance Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 flex-grow">
-          <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold"><Wallet size={24} />
-            Account Balance
+        <div className="grid grid-cols-4 gap-4 md:grid-cols-1">
+          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
+            <h2 className="text-xl font-semibold flex items-center gap-2"><Wallet size={24} />Account Balance
             </h2>
-            <p className="text-4xl font-bold">${financeData?.accountBalance}</p>
+
+            <p className="text-xl font-bold">${financeData?.accountBalance}</p>
             <p className="text-md ">20% change since last month.</p>
           </div>
-          <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold"><CircleDollarSign size={24} />Total Expenses
+          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
+            <h2 className="text-xl font-semibold flex items-center gap-2"><CircleDollarSign size={24} />Total Expenses
             </h2>
-            <p className="text-4xl font-bold">${financeData?.expenses}</p>
+            <p className="text-xl font-bold">${financeData?.expenses}</p>
+            <p className="text-md">20% change since last month.</p>
+          </div>
+          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
+            <h2 className="text-xl font-semibold flex items-center gap-2"><HandCoins size={24} />Total Income
+            </h2>
+            <p className="text-xl font-bold">${financeData?.income}</p>
             <p className="text-md ">20% change since last month.</p>
           </div>
-          <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold"><HandCoins size={24} />Total Income
+          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
+            <h2 className="text-xl font-semibold flex items-center gap-2"><PiggyBank size={24} />Budget Goals
             </h2>
-            <p className="text-4xl font-bold">${financeData?.income}</p>
-            <p className="text-md ">20% change since last month.</p>
-          </div>
-          <div className="bg-foreground p-2 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold"><PiggyBank size={24} />Budget Goals
-            </h2>
-            <p className="text-4xl font-bold">$5000.00</p>
+            <p className="text-2xl font-bold">$5000.00</p>
             <p className="text-md ">50% to goal.</p>
           </div>
         </div>
