@@ -55,7 +55,7 @@ export default function Home() {
       {/* Features Section */}
       <section className="w-full py-16 px-6 bg-white">
         <div className="flex flex-col items-center justify-center">
-            <div className="lg:w-1/2 flex items-center text-center lg:text-left gap-4">
+            <div className="lg:w-1/2 flex items-center text-center lg:text-left gap-6">
               <Image
                 src="/Budget.png"
                 alt="Track Spending"
@@ -71,7 +71,7 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          <div className="lg:w-1/2 flex items-center text-center lg:text-left gap-4">
+          <div className="lg:w-1/2 flex items-center text-center lg:text-left gap-6">
             <div>
               <h3 className="text-xl font-semibold mb-2 text-black">AI-Powered Insights</h3>
               <p className="text-gray-600 leading-relaxed">

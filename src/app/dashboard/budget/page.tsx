@@ -1,9 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import { signOut, useSession, signIn } from "next-auth/react";
+import React, { useEffect, useState } from "react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const BudgetPage: React.FC = () => {
+  interface BudgetData {
+    budget: {
+      category: string;
+      budget: number
+    }[];
+  }
+
   const [categories, setCategories] = useState<{ category: string; budget: number }[]>([]);
   const [newCategory, setNewCategory] = useState<string>("");
   const [newBudget, setNewBudget] = useState<number>(0);
@@ -68,11 +75,31 @@ const BudgetPage: React.FC = () => {
     }
   };
 
+  // Fetch budget data from the database
+  useEffect(() => {
+    if (status === "authenticated") {
+      const fetchBudgetData = async () => {
+        try {
+          const response = await fetch("/api/budget");
+          if (!response.ok) {
+            throw new Error("Failed to fetch budget data");
+          }
+
+          const data = await response.json(); // Fetch the object
+          setCategories(data.budget); // Access the `budget` property and populate `categories`
+        } catch (err) {
+          console.error("Error fetching budget data:", err);
+        }
+      };
+      fetchBudgetData();
+    }
+  }, [status]);
+
   return (
-    <div className="p-6">
+    <div className="w-screen min-h-screen">
       <header className="w-full flex justify-between items-center p-4 text-white">
-        <h1 className="text-2xl font-bold">Milo Financial</h1>
-        <div className="flex gap-2">
+      <h1 className="text-2xl font-bold">milofinancial</h1>
+      <div className="flex gap-2">
           <button
             onClick={() => router.push("/dashboard")}
             className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
@@ -110,7 +137,7 @@ const BudgetPage: React.FC = () => {
       <div>
         <h2 className="text-xl font-semibold mb-4">Your Categories</h2>
         {categories.length === 0 ? (
-          <p>No categories added yet.</p>
+          <p>No categories found. Add a category to get started.</p>
         ) : (
           <ul className="space-y-4">
             {categories.map((category, index) => (
