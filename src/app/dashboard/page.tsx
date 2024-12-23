@@ -98,7 +98,7 @@ export default function Dashboard() {
   // Main dashboard content
   return (
     <div className="w-screen min-h-screen">
-      <header className="w-full flex justify-between items-center p-4 text-white">
+      <header className="w-full flex justify-between items-center p-4 text-white border-b border-gray-200">
         <h1 className="text-2xl font-bold">milofinancial</h1>
         <div className="flex gap-2">
           <button onClick={() => router.push("/dashboard/budget")} className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground">
@@ -119,36 +119,35 @@ export default function Dashboard() {
       <main className="w-full flex container p-4 gap-4">
         {/* Finance Summary Cards */}
         <div className="grid grid-cols-4 gap-4 md:grid-cols-1">
-          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2"><Wallet size={24} />Account Balance
-            </h2>
-
+          <div className="max-w-sm p-6 bg-foreground border border-gray-100 rounded-lg shadow">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight">Account Balance
+            </h5>
             <p className="text-xl font-bold">${financeData?.accountBalance}</p>
-            <p className="text-md ">20% change since last month.</p>
+            <p className="mb-3 font-normal ">20% change since last month.</p>
           </div>
-          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2"><CircleDollarSign size={24} />Total Expenses
-            </h2>
+          <div className="max-w-sm p-6 bg-foreground border border-gray-100 rounded-lg shadow ">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight">Total Expenses
+            </h5>
             <p className="text-xl font-bold">${financeData?.expenses}</p>
-            <p className="text-md">20% change since last month.</p>
+            <p className="mb-3 font-normal">20% change since last month.</p>
           </div>
-          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2"><HandCoins size={24} />Total Income
-            </h2>
+          <div className="max-w-sm p-6 bg-foreground border border-gray-100 rounded-lg shadow ">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight">Total Income
+            </h5>
             <p className="text-xl font-bold">${financeData?.income}</p>
-            <p className="text-md ">20% change since last month.</p>
+            <p className="mb-3 font-normal ">20% change since last month.</p>
           </div>
-          <div className="bg-foreground p-6 rounded-xl border border-gray-400 shadow-md flex flex-col justify-between">
-            <h2 className="text-xl font-semibold flex items-center gap-2"><PiggyBank size={24} />Budget Goals
-            </h2>
+          <div className="max-w-sm p-6 bg-foreground border border-gray-100 rounded-lg shadow ">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight">Budget Goals
+            </h5>
             <p className="text-2xl font-bold">$5000.00</p>
-            <p className="text-md ">50% to goal.</p>
+            <p className="mb-3 font-normal ">50% to goal.</p>
           </div>
         </div>
 
         {/* Recent Transactions */}
         <div className="bg-foreground p-6 rounded-lg shadow-md flex-grow border border-gray-400">
-          <h2 className="text-xl font-semibold">Recent Transactions</h2>
+          <h2 className="text-xl">Recent Transactions</h2>
           <ul>
             {financeData?.transactions.slice(0, 5).map((transaction) => (
               <li

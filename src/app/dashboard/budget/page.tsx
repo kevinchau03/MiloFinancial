@@ -7,7 +7,7 @@ const BudgetPage: React.FC = () => {
   interface BudgetData {
     budget: {
       category: string;
-      budget: number
+      budget: number;
     }[];
   }
 
@@ -85,10 +85,16 @@ const BudgetPage: React.FC = () => {
             throw new Error("Failed to fetch budget data");
           }
 
-          const data = await response.json(); // Fetch the object
-          setCategories(data.budget); // Access the `budget` property and populate `categories`
+          const data: BudgetData = await response.json();
+          // Safeguard against non-existent or malformed budget data
+          if (Array.isArray(data.budget)) {
+            setCategories(data.budget);
+          } else {
+            setCategories([]); // Default to an empty array if no budget exists
+          }
         } catch (err) {
           console.error("Error fetching budget data:", err);
+          setCategories([]); // Default to an empty array on error
         }
       };
       fetchBudgetData();
@@ -97,9 +103,9 @@ const BudgetPage: React.FC = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <header className="w-full flex justify-between items-center p-4 text-white">
-      <h1 className="text-2xl font-bold">milofinancial</h1>
-      <div className="flex gap-2">
+      <header className="w-full flex justify-between items-center p-4 border-b border-gray-200">
+        <h1 className="text-2xl font-bold">milofinancial</h1>
+        <div className="flex gap-2">
           <button
             onClick={() => router.push("/dashboard")}
             className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
@@ -109,57 +115,60 @@ const BudgetPage: React.FC = () => {
         </div>
       </header>
 
-      <h1 className="text-2xl font-bold mb-4">Budget Categories</h1>
-      <div className="mb-6">
-        <label className="block mb-2 font-medium">Add Category</label>
-        <input
-          type="text"
-          value={newCategory}
-          onChange={handleCategoryChange}
-          placeholder="Category name (e.g., Food)"
-          className="rounded-md bg-foreground px-4 py-2 mb-2 w-full"
-        />
-        <input
-          type="number"
-          value={newBudget}
-          onChange={handleBudgetChange}
-          placeholder="Budget (e.g., 500)"
-          className="rounded-md bg-foreground px-4 py-2 mb-2 w-full"
-        />
-        <button
-          onClick={handleAddCategory}
-          className="px-4 py-2 bg-foreground text-white rounded-md"
-        >
-          Add Category
-        </button>
-      </div>
+      <section className="flex">
+        <div className="mb-6">
+          <label className="block mb-2 font-medium">Add Category</label>
+          <input
+            type="text"
+            value={newCategory}
+            onChange={handleCategoryChange}
+            placeholder="Category name (e.g., Food)"
+            className="rounded-md bg-foreground px-4 py-2 mb-2 w-full"
+          />
+          <input
+            type="number"
+            value={newBudget}
+            onChange={handleBudgetChange}
+            className="rounded-md bg-foreground px-4 py-2 mb-2 w-full"
+          />
+          <button
+            onClick={handleAddCategory}
+            className="px-4 py-2 bg-foreground text-white rounded-md"
+          >
+            Add Category
+          </button>
+        </div>
 
-      <div>
-        <h2 className="text-xl font-semibold mb-4">Your Categories</h2>
-        {categories.length === 0 ? (
-          <p>No categories found. Add a category to get started.</p>
-        ) : (
-          <ul className="space-y-4">
-            {categories.map((category, index) => (
-              <li
-                key={index}
-                className="flex justify-between items-center bg-foreground rounded-md px-4 py-2 shadow-sm"
-              >
-                <div>
-                  <h3 className="font-medium">{category.category}</h3>
-                  <p className="text-gray-600">Budget: ${category.budget}</p>
-                </div>
-                <button
-                  onClick={() => handleDeleteCategory(index)}
-                  className="text-red-500 hover:text-red-700"
+        <div className="bg-foreground p-6 rounded-md w-1/2">
+          {categories.length === 0 ? (
+            <p>No categories found. Add a category to get started.</p>
+          ) : (
+            <ul className="space-y-4">
+              {categories.map((category, index) => (
+                <li
+                  key={index}
                 >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+                  <div>
+                    <h3 className="font-medium">{category.category}</h3>
+                    <p className="text-gray-600">Budget: ${category.budget}</p>
+                  </div>
+                  <button
+                    onClick={() => handleDeleteCategory(index)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+
+      {/* Section for adding budgets */}
+      <section >
+          
+      </section>
 
       <button
         onClick={handleSaveToDatabase}
