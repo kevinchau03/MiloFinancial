@@ -89,6 +89,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Footer Section */}
       <footer className="w-full py-8 bg-foreground">
         <div className="flex flex-col items-center justify-center">
           <p className="text-center text-white">

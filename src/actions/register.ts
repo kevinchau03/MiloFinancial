@@ -17,12 +17,12 @@ export const register = async ({ email, password, name }: { email: string; passw
     }
 
     // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create the user
     const newUser = await User.create({
       email,
-      password: hashedPassword,
+      password: password,
       name,
     });
 

@@ -30,24 +30,29 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "Your password" },
       },
       async authorize(credentials) {
+        // Validate provided credentials
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error("Email and password are required.");
+        }
+
         // Connect to the database
         await connectDB();
 
         // Find the user in the database
-        const user = await User.findOne({ email: credentials?.email }).select("+password");
+        const user = await User.findOne({ email: credentials.email }).select("+password");
 
         if (!user) {
-          throw new Error("Invalid email or password.");
+          throw new Error("No user found with the provided email.");
         }
 
         // Compare the provided password with the stored hashed password
-        const isPasswordValid = await bcrypt.compare(credentials!.password, user.password);
+        const isPasswordValid = await bcrypt.compare(credentials.password, user.password);
         if (!isPasswordValid) {
-          throw new Error("Invalid email or password.");
+          throw new Error("Incorrect password.");
         }
 
         // Return user object without the password field
-        return { id: user._id, email: user.email, name: user.name };
+        return { id: user._id.toString(), email: user.email, name: user.name };
       },
     }),
   ],
@@ -57,7 +62,6 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        // Add user details to the token
         token.id = user.id;
         token.email = user.email;
         token.name = user.name; // Include the full name
@@ -65,7 +69,6 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // Include token details in the session
       session.user = {
         id: typeof token.id === "string" ? token.id : "", // Ensure id is a string
         email: token.email || "",
@@ -74,10 +77,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-
   pages: {
     signIn: "/login", // Redirect to a custom login page
     error: "/login", // Redirect to login page on error
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development", // Enable debugging in development
 };
