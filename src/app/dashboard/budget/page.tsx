@@ -103,18 +103,6 @@ const BudgetPage: React.FC = () => {
 
   return (
     <div className="w-screen min-h-screen">
-      <header className="w-full flex justify-between items-center p-4 border-b border-gray-200">
-        <h1 className="text-2xl font-bold">milofinancial</h1>
-        <div className="flex gap-2">
-          <button
-            onClick={() => router.push("/dashboard")}
-            className="px-4 py-2 rounded-lg border-2 border-white transition bg-foreground hover:bg-white hover:text-foreground"
-          >
-            Back
-          </button>
-        </div>
-      </header>
-
       <section className="flex">
         <div className="mb-6">
           <label className="block mb-2 font-medium">Add Category</label>

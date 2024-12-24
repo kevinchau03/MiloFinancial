@@ -6,10 +6,14 @@ import Image from "next/image";
 import { useEffect } from "react";
 
 export default function Home() {
+
+  // get the session status
   const { status } = useSession();
   const router = useRouter();
 
   // Redirect authenticated users to the dashboard
+
+
   useEffect(() => {
     if (status === "authenticated") {
       router.push("/dashboard");
@@ -18,6 +22,8 @@ export default function Home() {
 
   return (
     <div className="w-screen flex flex-col min-h-screen">
+
+
       {/* Hero Section */}
       <section className="flex flex-col-reverse lg:flex-row items-center justify-center w-full px-6 py-16 text-white">
         <div className="lg:w-1/2 text-center lg:text-left">
