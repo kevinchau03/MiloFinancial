@@ -69,24 +69,28 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="w-screen min-h-screen flex flex-col bg-background p-4">
+    <div className="flex flex-col bg-background">
       {/* Finance Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
         <div className="p-4 bg-foreground border border-gray-100 rounded-lg shadow">
           <h5 className="text-lg font-bold">Account Balance</h5>
           <p className="text-2xl font-bold">${financeData?.accountBalance}</p>
+          <p className="text-sm">20% change from last month.</p>
         </div>
         <div className="p-4 bg-foreground border border-gray-100 rounded-lg shadow">
           <h5 className="text-lg font-bold">Total Expenses</h5>
           <p className="text-2xl font-bold">${financeData?.expenses}</p>
+          <p className="text-sm">20% change from last month.</p>
         </div>
         <div className="p-4 bg-foreground border border-gray-100 rounded-lg shadow">
           <h5 className="text-lg font-bold">Total Income</h5>
           <p className="text-2xl font-bold">${financeData?.income}</p>
+          <p className="text-sm">20% change from last month.</p>
         </div>
         <div className="p-4 bg-foreground border border-gray-100 rounded-lg shadow">
           <h5 className="text-lg font-bold">Budget Goals</h5>
           <p className="text-2xl font-bold">$5000</p>
+          <p className="text-sm">20% change from last month.</p>
         </div>
       </div>
 
@@ -94,9 +98,9 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="bg-foreground p-4 rounded-lg shadow border border-gray-200">
           <h2 className="text-lg font-bold mb-2">Recent Transactions</h2>
-          <ul className="space-y-2">
+          <ul className="space-y-2 items-center">
             {financeData?.transactions.slice(0, 5).map((transaction) => (
-              <li key={transaction.transactionId} className="border-b border-gray-200 py-2">
+              <li key={transaction.transactionId} className="py-2">
                 <div className="flex justify-between">
                   <span>{transaction.description}</span>
                   <span className="font-bold">${transaction.amount.toFixed(2)}</span>
@@ -113,7 +117,7 @@ const Dashboard: React.FC = () => {
           <h2 className="text-lg font-bold mb-2">Your Categories</h2>
           <ul className="space-y-2">
             {categories.map((category, index) => (
-              <li key={index} className="border-b border-gray-200 py-2">
+              <li key={index} className="py-2">
                 <div className="flex justify-between">
                   <span>{category.category}</span>
                   <span className="font-bold">${category.budget}</span>
