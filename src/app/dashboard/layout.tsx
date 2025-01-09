@@ -12,7 +12,7 @@ export default function RootLayout({
         <html lang="en">
             <body className="bg-background">
                 <Header />
-                <main className="container mx-auto px-2 py-4">
+                <main className=" mx-auto px-2 py-4">
                     {children}
                 </main>
             </body>
