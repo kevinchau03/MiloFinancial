@@ -1,26 +1,21 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/app-sidebar";
+'use client'
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import Header from "@/app/components/Header";
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body>
-        <SidebarProvider>
-          <div className="flex h-full w-full">
-            <AppSidebar />
-            <div className="flex-1 flex flex-col p-4 relative">
-              <SidebarTrigger className="absolute top-4 left-4 z-50" />
-              <div className="h-full w-full overflow-auto">
-                {children}
-              </div>
-            </div>
-          </div>
-        </SidebarProvider>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body className="bg-background">
+                <Header />
+                <main className=" mx-auto px-2 py-4">
+                    {children}
+                </main>
+            </body>
+        </html>
+    );
 }
